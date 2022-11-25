@@ -32,14 +32,25 @@ app.listen(3001, () => console.log(`Server Started on port ${port}...`));
 app.use(express.json());
 
 app.post("/createUser", async (req, res) => {
-  const user = req.body.name;
+  const user = req.body.email;
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  const name = req.body.name;
+  const status = req.body.status;
+  const registerTime = req.body.registerTime;
+  const lastLoginTime = req.body.lastLoginTime;
   db.getConnection(async (err, connection) => {
     if (err) throw err;
     const sqlSearch = "SELECT * FROM usersTable WHERE user = ?";
     const search_query = mysql.format(sqlSearch, [user]);
-    const sqlInsert = "INSERT INTO usersTable VALUES (null,?,?)";
-    const insert_query = mysql.format(sqlInsert, [user, hashedPassword]);
+    const sqlInsert = "INSERT INTO usersTable VALUES (null,?,?,?,?,?,?)";
+    const insert_query = mysql.format(sqlInsert, [
+      user,
+      hashedPassword,
+      name,
+      status,
+      registerTime,
+      lastLoginTime,
+    ]);
 
     await connection.query(search_query, async (err, result) => {
       if (err) throw err;

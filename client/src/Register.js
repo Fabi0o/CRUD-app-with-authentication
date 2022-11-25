@@ -1,16 +1,28 @@
 import { useState } from "react";
 import Axios from "axios";
+import { useHistory } from "react-router-dom";
 const Register = () => {
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const registerUser = (e) => {
     e.preventDefault();
     Axios.post("http://localhost:3001/createUser", {
-      name: email,
+      email: email,
       password: password,
-    }).then(() => {
-      console.log("succes");
-    });
+      name: name,
+      status: "active",
+      registerTime: new Date().toISOString().slice(0, 19).replace("T", " "),
+      lastLoginTime: new Date().toISOString().slice(0, 19).replace("T", " "),
+    })
+      .then(() => {
+        console.log("succes");
+        history.push("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <form onSubmit={registerUser}>
@@ -30,6 +42,15 @@ const Register = () => {
         }}
         id="password"
         type="password"
+        required
+      />
+      <label htmlFor="name">Name:</label>
+      <input
+        onChange={(e) => {
+          setName(e.target.value);
+        }}
+        type="text"
+        id="name"
         required
       />
       <button>Register</button>
