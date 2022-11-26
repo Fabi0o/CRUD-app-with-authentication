@@ -2,22 +2,35 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
-const Login = () => {
+const Login = (props) => {
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const loginUser = (e) => {
+  const [wrongPass, setWrongPass] = useState(false);
+
+  const loginUser = async (e) => {
     e.preventDefault();
-    Axios.post("http://localhost:3001/login", {
+    await Axios.post("http://localhost:3001/login", {
       email: email,
       password: password,
     })
       .then(() => {
+        props.setIsLoggedIn(true);
+        updateLoginTime(props.currentTime(), email, `lastLoginTime`);
         history.push("/dashboard");
+        if (wrongPass) setWrongPass(false);
       })
-      .catch(() => {
-        alert("Wrong password or user does nor exist!");
+      .catch((err) => {
+        console.log(err);
+        setWrongPass(true);
       });
+  };
+  const updateLoginTime = (value, email, column) => {
+    Axios.post("http://localhost:3001/update", {
+      value: value,
+      email: email,
+      column: column,
+    });
   };
   return (
     <div>
@@ -41,6 +54,7 @@ const Login = () => {
           }}
         />
         <button>Login</button>
+        <div>{wrongPass ? "Wrong Password or user does not exist!" : ""}</div>
         <Link to="/register">Register</Link>
       </form>
     </div>

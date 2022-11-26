@@ -101,3 +101,18 @@ app.post("/login", (req, res) => {
     });
   });
 });
+app.post("/update", async (req, res) => {
+  const value = req.body.value;
+  const email = req.body.email;
+  const column = req.body.column;
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const sqlUpdate = `UPDATE usersTable SET ${column}='${value}' WHERE (user = '${email}')`;
+    const update_query = mysql.format(sqlUpdate);
+    await connection.query(update_query, async (err, result) => {
+      connection.release();
+      if (err) throw err;
+      console.log("---------> Login Time Update succesful");
+    });
+  });
+});

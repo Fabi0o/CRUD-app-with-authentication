@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
-const Register = () => {
+
+const Register = (props) => {
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,8 +14,8 @@ const Register = () => {
       password: password,
       name: name,
       status: "active",
-      registerTime: new Date().toISOString().slice(0, 19).replace("T", " "),
-      lastLoginTime: new Date().toISOString().slice(0, 19).replace("T", " "),
+      registerTime: props.currentTime(),
+      lastLoginTime: props.currentTime(),
     })
       .then(() => {
         console.log("succes");
