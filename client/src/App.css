@@ -6,3 +6,7 @@ form {
 form > * {
   margin: 5px;
 }
+td,
+th {
+  border: solid black;
+}

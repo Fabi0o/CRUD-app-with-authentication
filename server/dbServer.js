@@ -116,3 +116,12 @@ app.post("/update", async (req, res) => {
     });
   });
 });
+app.get("/users", (req, res) => {
+  db.query("SELECT * FROM usersTable", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
