@@ -11,7 +11,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
   const [usersList, setUsersList] = useState([]);
-  const tzoffset = new Date().getTimezoneOffset() * 120000;
+  const tzoffset = new Date().getTimezoneOffset() * 60000;
   const currentTime = () => {
     return new Date(Date.now() - tzoffset)
       .toISOString()

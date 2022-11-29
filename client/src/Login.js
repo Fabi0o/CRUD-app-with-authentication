@@ -20,15 +20,13 @@ const Login = (props) => {
       email: email,
       password: password,
     })
-      .then(() => {
-        getUsers();
-      })
+
       .then(() => {
         props.setIsLoggedIn(true);
         updateLoginTime(props.currentTime(), email, `lastLoginTime`);
         props.setCurrentUser(email);
-        history.push("/dashboard");
         if (wrongPass) setWrongPass(false);
+        history.push("/dashboard");
       })
       .catch((err) => {
         console.log(err);
@@ -40,6 +38,8 @@ const Login = (props) => {
       value: value,
       email: email,
       column: column,
+    }).then(() => {
+      getUsers();
     });
   };
   return (
