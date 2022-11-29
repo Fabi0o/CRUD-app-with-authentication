@@ -7,7 +7,11 @@ const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [wrongPass, setWrongPass] = useState(false);
-
+  const getUsers = () => {
+    Axios.get("http://localhost:3001/users").then((response) => {
+      props.setUsersList(response.data);
+    });
+  };
   const loginUser = async (e) => {
     e.preventDefault();
     await Axios.post("http://localhost:3001/login", {
@@ -15,8 +19,12 @@ const Login = (props) => {
       password: password,
     })
       .then(() => {
+        getUsers();
+      })
+      .then(() => {
         props.setIsLoggedIn(true);
         updateLoginTime(props.currentTime(), email, `lastLoginTime`);
+        props.setCurrentUser(email);
         history.push("/dashboard");
         if (wrongPass) setWrongPass(false);
       })
@@ -54,7 +62,11 @@ const Login = (props) => {
           }}
         />
         <button>Login</button>
-        <div>{wrongPass ? "Wrong Password or user does not exist!" : ""}</div>
+        <div>
+          {wrongPass
+            ? "Wrong Password, user does not exist or user blocked!"
+            : ""}
+        </div>
         <Link to="/register">Register</Link>
       </form>
     </div>

@@ -82,10 +82,12 @@ app.post("/login", (req, res) => {
     const search_query = mysql.format(sqlSearch, [user]);
     await connection.query(search_query, async (err, result) => {
       connection.release();
-
       if (err) throw err;
       if (result.length == 0) {
         console.log("--------> User does not exist");
+        res.sendStatus(404);
+      } else if (result[0].status == "blocked") {
+        console.log("--------> User blocked");
         res.sendStatus(404);
       } else {
         const hashedPassword = result[0].password;
@@ -101,19 +103,18 @@ app.post("/login", (req, res) => {
     });
   });
 });
-app.post("/update", async (req, res) => {
+app.post("/update", (req, res) => {
   const value = req.body.value;
   const email = req.body.email;
   const column = req.body.column;
-  db.getConnection(async (err, connection) => {
+  const sqlUpdate = `UPDATE usersTable SET ${column}='${value}' WHERE (user = '${email}')`;
+  const update_query = mysql.format(sqlUpdate);
+  db.query(update_query, async (err, result) => {
     if (err) throw err;
-    const sqlUpdate = `UPDATE usersTable SET ${column}='${value}' WHERE (user = '${email}')`;
-    const update_query = mysql.format(sqlUpdate);
-    await connection.query(update_query, async (err, result) => {
-      connection.release();
-      if (err) throw err;
-      console.log("---------> Login Time Update succesful");
-    });
+    else {
+      console.log("---------> Data Update Succesful!");
+      res.status(201).send("saved");
+    }
   });
 });
 app.get("/users", (req, res) => {
@@ -122,6 +123,18 @@ app.get("/users", (req, res) => {
       console.log(err);
     } else {
       res.send(result);
+    }
+  });
+});
+app.post("/delete", (req, res) => {
+  const id = req.body.id;
+  const sqlUpdate = `DELETE FROM usersTable WHERE (id = ${id})`;
+  const update_query = mysql.format(sqlUpdate);
+  db.query(update_query, async (err, result) => {
+    if (err) throw err;
+    else {
+      console.log("---------> Data Delete Succesful!");
+      res.status(201).send("saved");
     }
   });
 });

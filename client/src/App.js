@@ -7,7 +7,9 @@ import { useState } from "react";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const tzoffset = new Date().getTimezoneOffset() * 60000;
+  const [currentUser, setCurrentUser] = useState("");
+  const [usersList, setUsersList] = useState([]);
+  const tzoffset = new Date().getTimezoneOffset() * 120000;
   const currentTime = () => {
     return new Date(Date.now() - tzoffset)
       .toISOString()
@@ -20,16 +22,33 @@ function App() {
         <Switch>
           <Route exact path="/">
             {isLoggedIn ? (
-              <Dashboard />
+              <Dashboard
+                setIsLoggedIn={setIsLoggedIn}
+                setCurrentUser={setCurrentUser}
+                currentUser={currentUser}
+                usersList={usersList}
+                setUsersList={setUsersList}
+              />
             ) : (
-              <Login setIsLoggedIn={setIsLoggedIn} currentTime={currentTime} />
+              <Login
+                setIsLoggedIn={setIsLoggedIn}
+                currentTime={currentTime}
+                setCurrentUser={setCurrentUser}
+                setUsersList={setUsersList}
+              />
             )}
           </Route>
         </Switch>
         <Switch>
           <Route path="/register">
             {isLoggedIn ? (
-              <Dashboard />
+              <Dashboard
+                setIsLoggedIn={setIsLoggedIn}
+                setCurrentUser={setCurrentUser}
+                currentUser={currentUser}
+                usersList={usersList}
+                setUsersList={setUsersList}
+              />
             ) : (
               <Register currentTime={currentTime} />
             )}
@@ -38,9 +57,20 @@ function App() {
         <Switch>
           <Route path="/dashboard">
             {isLoggedIn ? (
-              <Dashboard />
+              <Dashboard
+                setIsLoggedIn={setIsLoggedIn}
+                setCurrentUser={setCurrentUser}
+                currentUser={currentUser}
+                usersList={usersList}
+                setUsersList={setUsersList}
+              />
             ) : (
-              <Login setIsLoggedIn={setIsLoggedIn} currentTime={currentTime} />
+              <Login
+                setIsLoggedIn={setIsLoggedIn}
+                currentTime={currentTime}
+                setCurrentUser={setCurrentUser}
+                setUsersList={setUsersList}
+              />
             )}
           </Route>
         </Switch>

@@ -18,7 +18,6 @@ const Register = (props) => {
       lastLoginTime: props.currentTime(),
     })
       .then(() => {
-        console.log("succes");
         history.push("/");
       })
       .catch((err) => {
