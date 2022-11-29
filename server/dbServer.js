@@ -27,7 +27,7 @@ db.getConnection((err, connection) => {
 });
 
 const port = process.env.PORT;
-app.listen(3001, () => console.log(`Server Started on port ${port}...`));
+app.listen(port, () => console.log(`Server Started on port ${port}...`));
 
 app.use(express.json());
 
