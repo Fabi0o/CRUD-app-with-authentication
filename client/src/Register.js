@@ -9,7 +9,7 @@ const Register = (props) => {
   const [name, setName] = useState("");
   const registerUser = (e) => {
     e.preventDefault();
-    Axios.post("http://localhost:3001/createUser", {
+    Axios.post("https://crud-app-with-auth.herokuapp.com/createUser", {
       email: email,
       password: password,
       name: name,

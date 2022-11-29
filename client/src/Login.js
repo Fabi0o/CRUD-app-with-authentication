@@ -8,13 +8,15 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const [wrongPass, setWrongPass] = useState(false);
   const getUsers = () => {
-    Axios.get("http://localhost:3001/users").then((response) => {
-      props.setUsersList(response.data);
-    });
+    Axios.get("https://crud-app-with-auth.herokuapp.com/users").then(
+      (response) => {
+        props.setUsersList(response.data);
+      }
+    );
   };
   const loginUser = async (e) => {
     e.preventDefault();
-    await Axios.post("http://localhost:3001/login", {
+    await Axios.post("https://crud-app-with-auth.herokuapp.com/login", {
       email: email,
       password: password,
     })
@@ -34,7 +36,7 @@ const Login = (props) => {
       });
   };
   const updateLoginTime = (value, email, column) => {
-    Axios.post("http://localhost:3001/update", {
+    Axios.post("https://crud-app-with-auth.herokuapp.com/update", {
       value: value,
       email: email,
       column: column,
