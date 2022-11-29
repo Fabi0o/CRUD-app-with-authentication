@@ -4,6 +4,8 @@ import Register from "./Register";
 import Dashboard from "./Dashboard";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

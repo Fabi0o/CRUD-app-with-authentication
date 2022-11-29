@@ -61,7 +61,7 @@ const Login = (props) => {
             setPassword(e.target.value);
           }}
         />
-        <button>Login</button>
+        <button className="btn btn-primary m-2">Login</button>
         <div>
           {wrongPass
             ? "Wrong Password, user does not exist or user blocked!"

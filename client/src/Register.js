@@ -53,7 +53,7 @@ const Register = (props) => {
         id="name"
         required
       />
-      <button>Register</button>
+      <button className="btn btn-primary m-2">Register</button>
     </form>
   );
 };

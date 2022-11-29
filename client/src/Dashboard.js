@@ -72,10 +72,16 @@ const Dashboard = (props) => {
 
   return (
     <div className="userTable">
-      <button onClick={deleteUser}>Delete</button>
-      <button onClick={changeUserStatus}>Block/Unblock</button>
-      <button onClick={logout}>Logout</button>
-      <table>
+      <button onClick={deleteUser} className="btn btn-primary m-2">
+        Delete
+      </button>
+      <button onClick={changeUserStatus} className="btn btn-primary m-2">
+        Block/Unblock
+      </button>
+      <button onClick={logout} className="btn btn-primary m-2">
+        Logout
+      </button>
+      <table className="table table-striped">
         <thead>
           <tr>
             <th>
