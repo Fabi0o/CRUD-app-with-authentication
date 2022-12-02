@@ -8,18 +8,21 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const [wrongPass, setWrongPass] = useState(false);
   const getUsers = () => {
-    Axios.get("https://crud-app-with-auth.herokuapp.com/users").then(
-      (response) => {
-        props.setUsersList(response.data);
-      }
-    );
+    Axios.get(
+      "https://crud-app-with-authentication-production.up.railway.app/users"
+    ).then((response) => {
+      props.setUsersList(response.data);
+    });
   };
   const loginUser = async (e) => {
     e.preventDefault();
-    await Axios.post("https://crud-app-with-auth.herokuapp.com/login", {
-      email: email,
-      password: password,
-    })
+    await Axios.post(
+      "https://crud-app-with-authentication-production.up.railway.app/login",
+      {
+        email: email,
+        password: password,
+      }
+    )
 
       .then(() => {
         props.setIsLoggedIn(true);
@@ -34,11 +37,14 @@ const Login = (props) => {
       });
   };
   const updateLoginTime = (value, email, column) => {
-    Axios.post("https://crud-app-with-auth.herokuapp.com/update", {
-      value: value,
-      email: email,
-      column: column,
-    }).then(() => {
+    Axios.post(
+      "https://crud-app-with-authentication-production.up.railway.app/update",
+      {
+        value: value,
+        email: email,
+        column: column,
+      }
+    ).then(() => {
       getUsers();
     });
   };

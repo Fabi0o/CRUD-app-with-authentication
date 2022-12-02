@@ -9,14 +9,17 @@ const Register = (props) => {
   const [name, setName] = useState("");
   const registerUser = (e) => {
     e.preventDefault();
-    Axios.post("https://crud-app-with-auth.herokuapp.com/createUser", {
-      email: email,
-      password: password,
-      name: name,
-      status: "active",
-      registerTime: props.currentTime(),
-      lastLoginTime: props.currentTime(),
-    })
+    Axios.post(
+      "https://crud-app-with-authentication-production.up.railway.app/createUser",
+      {
+        email: email,
+        password: password,
+        name: name,
+        status: "active",
+        registerTime: props.currentTime(),
+        lastLoginTime: props.currentTime(),
+      }
+    )
       .then(() => {
         history.push("/");
       })

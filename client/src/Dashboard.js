@@ -3,11 +3,11 @@ import { useHistory } from "react-router-dom";
 const Dashboard = (props) => {
   const history = useHistory();
   const getUsers = () => {
-    Axios.get("https://crud-app-with-auth.herokuapp.com/users").then(
-      (response) => {
-        props.setUsersList(response.data);
-      }
-    );
+    Axios.get(
+      "https://crud-app-with-authentication-production.up.railway.app/users"
+    ).then((response) => {
+      props.setUsersList(response.data);
+    });
   };
   const selectAll = (e) => {
     let checkboxes = document.querySelectorAll(".userCheck");
@@ -29,7 +29,7 @@ const Dashboard = (props) => {
         status = "blocked";
       } else status = "active";
       const result = Axios.post(
-        "https://crud-app-with-auth.herokuapp.com/update",
+        "https://crud-app-with-authentication-production.up.railway.app/update",
         {
           value: status,
           email: user.user,
@@ -56,7 +56,7 @@ const Dashboard = (props) => {
       let user = props.usersList.find((item) => item.id == checkbox.id);
       if (user.user == props.currentUser) isCurrentUser = true;
       const result = Axios.post(
-        "https://crud-app-with-auth.herokuapp.com/delete",
+        "https://crud-app-with-authentication-production.up.railway.app/delete",
         {
           id: user.id,
         }
