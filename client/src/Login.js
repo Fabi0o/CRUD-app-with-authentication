@@ -32,7 +32,6 @@ const Login = (props) => {
         history.push("/dashboard");
       })
       .catch((err) => {
-        console.log(err);
         setWrongPass(true);
       });
   };

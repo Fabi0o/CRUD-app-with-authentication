@@ -38,7 +38,7 @@ app.post("/createUser", async (req, res) => {
   const status = req.body.status;
   const registerTime = req.body.registerTime;
   const lastLoginTime = req.body.lastLoginTime;
-  db.getConnection(async (err, connection) => {
+  db.getConnection((err, connection) => {
     if (err) throw err;
     const sqlSearch = "SELECT * FROM usersTable WHERE user = ?";
     const search_query = mysql.format(sqlSearch, [user]);
@@ -52,7 +52,7 @@ app.post("/createUser", async (req, res) => {
       lastLoginTime,
     ]);
 
-    await connection.query(search_query, async (err, result) => {
+    connection.query(search_query, (err, result) => {
       if (err) throw err;
       console.log("------> Search Results");
       console.log(result.length);
@@ -61,7 +61,7 @@ app.post("/createUser", async (req, res) => {
         console.log("------> User already exists");
         res.sendStatus(409);
       } else {
-        await connection.query(insert_query, (err, result) => {
+        connection.query(insert_query, (err, result) => {
           connection.release();
           if (err) throw err;
           console.log("--------> Created new User");
@@ -80,7 +80,7 @@ app.post("/login", (req, res) => {
     if (err) throw err;
     const sqlSearch = "Select * from usersTable where user = ?";
     const search_query = mysql.format(sqlSearch, [user]);
-    await connection.query(search_query, async (err, result) => {
+    connection.query(search_query, async (err, result) => {
       connection.release();
       if (err) throw err;
       if (result.length == 0) {
@@ -109,7 +109,7 @@ app.post("/update", (req, res) => {
   const column = req.body.column;
   const sqlUpdate = `UPDATE usersTable SET ${column}='${value}' WHERE (user = '${email}')`;
   const update_query = mysql.format(sqlUpdate);
-  db.query(update_query, async (err, result) => {
+  db.query(update_query, (err, result) => {
     if (err) throw err;
     else {
       console.log("---------> Data Update Succesful!");
@@ -130,7 +130,7 @@ app.post("/delete", (req, res) => {
   const id = req.body.id;
   const sqlUpdate = `DELETE FROM usersTable WHERE (id = ${id})`;
   const update_query = mysql.format(sqlUpdate);
-  db.query(update_query, async (err, result) => {
+  db.query(update_query, (err, result) => {
     if (err) throw err;
     else {
       console.log("---------> Data Delete Succesful!");

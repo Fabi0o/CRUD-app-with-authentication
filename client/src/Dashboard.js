@@ -110,7 +110,7 @@ const Dashboard = (props) => {
                 <td>
                   <input type="checkbox" className="userCheck" id={user.id} />
                 </td>
-                <td>{Math.floor(user.id / 10)}</td>
+                <td>{user.id}</td>
                 <td>{user.user}</td>
                 <td>{user.name}</td>
                 <td>{user.status}</td>
