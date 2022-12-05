@@ -1,4 +1,4 @@
-CRUD application created using React, node.js, express and mySQL. [Deployed app!](https://subtle-gumdrop-1f19c3.netlify.app/)
+CRUD application created using React, node.js, express and mySQL. [Deployed app!](https://crud-app-with-auth.netlify.app)
 #### App functionalities:
 * Creating account with email and password(length >=1). Password are safely stored hashed by bcrypt in mysql DB
 * Authentication
