@@ -8,21 +8,16 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const [wrongPass, setWrongPass] = useState(false);
   const getUsers = () => {
-    Axios.get(
-      "https://crud-app-with-authentication-production.up.railway.app/users"
-    ).then((response) => {
+    Axios.get("http://localhost:3001/users").then((response) => {
       props.setUsersList(response.data);
     });
   };
   const loginUser = async (e) => {
     e.preventDefault();
-    await Axios.post(
-      "https://crud-app-with-authentication-production.up.railway.app/login",
-      {
-        email: email,
-        password: password,
-      }
-    )
+    await Axios.post("http://localhost:3001/login", {
+      email: email,
+      password: password,
+    })
 
       .then(() => {
         props.setIsLoggedIn(true);
@@ -36,14 +31,11 @@ const Login = (props) => {
       });
   };
   const updateLoginTime = (value, email, column) => {
-    Axios.post(
-      "https://crud-app-with-authentication-production.up.railway.app/update",
-      {
-        value: value,
-        email: email,
-        column: column,
-      }
-    ).then(() => {
+    Axios.post("http://localhost:3001/update", {
+      value: value,
+      email: email,
+      column: column,
+    }).then(() => {
       getUsers();
     });
   };
