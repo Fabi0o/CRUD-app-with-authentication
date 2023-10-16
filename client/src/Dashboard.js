@@ -3,10 +3,12 @@ import { useHistory } from "react-router-dom";
 const Dashboard = (props) => {
   const history = useHistory();
   const getUsers = () => {
-    Axios.get("http://localhost:3001/users").then((response) => {
-      console.log(response);
-      props.setUsersList(response.data);
-    });
+    Axios.get("https://crud-app-with-authentication.vercel.app/users").then(
+      (response) => {
+        console.log(response);
+        props.setUsersList(response.data);
+      }
+    );
   };
   const selectAll = (e) => {
     let checkboxes = document.querySelectorAll(".userCheck");
@@ -27,11 +29,14 @@ const Dashboard = (props) => {
       if (user.status == "active") {
         status = "blocked";
       } else status = "active";
-      const result = Axios.post("http://localhost:3001/update", {
-        value: status,
-        email: user.user,
-        column: "status",
-      });
+      const result = Axios.post(
+        "https://crud-app-with-authentication.vercel.app/update",
+        {
+          value: status,
+          email: user.user,
+          column: "status",
+        }
+      );
       promises.push(result);
     });
     await Promise.all(promises)
@@ -51,9 +56,12 @@ const Dashboard = (props) => {
     checkedBoxes.forEach((checkbox) => {
       let user = props.usersList.find((item) => item.id == checkbox.id);
       if (user.user == props.currentUser) isCurrentUser = true;
-      const result = Axios.post("http://localhost:3001/delete", {
-        id: user.id,
-      });
+      const result = Axios.post(
+        "https://crud-app-with-authentication.vercel.app/delete",
+        {
+          id: user.id,
+        }
+      );
       promises.push(result);
     });
     await Promise.all(promises)
