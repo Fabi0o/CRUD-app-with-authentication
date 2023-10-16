@@ -31,8 +31,6 @@ app.post("/createUser", async (req, res) => {
   const status = req.body.status;
   const registerTime = req.body.registerTime;
   const lastLoginTime = req.body.lastLoginTime;
-  const sqlSearch = "SELECT * FROM usersTable WHERE user = ?";
-  const search_query = mysql.format(sqlSearch, [user]);
 
   pool.query(
     `SELECT * FROM userstable WHERE "user" = '${user}'`,
@@ -50,7 +48,6 @@ app.post("/createUser", async (req, res) => {
           (err, result) => {
             if (err) throw err;
             console.log("--------> Created new User");
-            console.log(result.insertId);
             res.sendStatus(201);
           }
         );
@@ -59,70 +56,70 @@ app.post("/createUser", async (req, res) => {
   );
 });
 
-// app.post("/login", (req, res) => {
-//   const user = req.body.email;
-//   const password = req.body.password;
-//   db.getConnection(async (err, connection) => {
-//     if (err) throw err;
-//     const sqlSearch = "Select * from usersTable where user = ?";
-//     const search_query = mysql.format(sqlSearch, [user]);
-//     connection.query(search_query, async (err, result) => {
-//       connection.release();
-//       if (err) throw err;
-//       if (result.length == 0) {
-//         console.log("--------> User does not exist");
-//         res.sendStatus(404);
-//       } else if (result[0].status == "blocked") {
-//         console.log("--------> User blocked");
-//         res.sendStatus(404);
-//       } else {
-//         const hashedPassword = result[0].password;
+app.post("/login", (req, res) => {
+  const user = req.body.email;
+  const password = req.body.password;
 
-//         if (await bcrypt.compare(password, hashedPassword)) {
-//           console.log("---------> Login Successful");
-//           res.send(`${user} is logged in!`);
-//         } else {
-//           console.log("---------> Password Incorrect");
-//           res.sendStatus(404);
-//         }
-//       }
-//     });
-//   });
-// });
-// app.post("/update", (req, res) => {
-//   const value = req.body.value;
-//   const email = req.body.email;
-//   const column = req.body.column;
-//   const sqlUpdate = `UPDATE usersTable SET ${column}='${value}' WHERE (user = '${email}')`;
-//   const update_query = mysql.format(sqlUpdate);
-//   db.query(update_query, (err, result) => {
-//     if (err) throw err;
-//     else {
-//       console.log("---------> Data Update Succesful!");
-//       res.status(201).send("saved");
-//     }
-//   });
-// });
+  pool.query(
+    `SELECT * FROM userstable WHERE "user" = '${user}'`,
 
-app.get("/users", (req, res) => {
-  pool.query("SELECT * FROM usersTable", (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(result);
+    async (err, result) => {
+      if (err) throw err;
+      if (result.rows.length == 0) {
+        console.log("--------> User does not exist");
+        res.sendStatus(404);
+      } else if (result.rows[0].status == "blocked") {
+        console.log("--------> User blocked");
+        res.sendStatus(404);
+      } else {
+        const hashedPassword = result.rows[0].password;
+
+        if (await bcrypt.compare(password, hashedPassword)) {
+          console.log("---------> Login Successful");
+          res.send(`${user} is logged in!`);
+        } else {
+          console.log("---------> Password Incorrect");
+          res.sendStatus(404);
+        }
+      }
+    }
+  );
+});
+
+app.post("/update", (req, res) => {
+  const value = req.body.value;
+  const email = req.body.email;
+  const column = req.body.column;
+  const sqlUpdate = `UPDATE usersTable SET ${column}='${value}' WHERE "user" = '${email}'`;
+
+  pool.query(sqlUpdate, (err, result) => {
+    if (err) throw err;
+    else {
+      console.log("---------> Data Update Succesful!");
+      res.status(201).send("saved");
     }
   });
 });
 
-// app.post("/delete", (req, res) => {
-//   const id = req.body.id;
-//   const sqlUpdate = `DELETE FROM usersTable WHERE (id = ${id})`;
-//   const update_query = mysql.format(sqlUpdate);
-//   db.query(update_query, (err, result) => {
-//     if (err) throw err;
-//     else {
-//       console.log("---------> Data Delete Succesful!");
-//       res.status(201).send("saved");
-//     }
-//   });
-// });
+app.get("/users", (req, res) => {
+  pool.query("SELECT * FROM userstable", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result.rows);
+    }
+  });
+});
+
+app.post("/delete", (req, res) => {
+  const id = req.body.id;
+  const sqlUpdate = `DELETE FROM userstable WHERE id = ${id}`;
+
+  pool.query(sqlUpdate, (err, result) => {
+    if (err) throw err;
+    else {
+      console.log("---------> Data Delete Succesful!");
+      res.status(201).send("saved");
+    }
+  });
+});

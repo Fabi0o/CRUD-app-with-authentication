@@ -4,6 +4,7 @@ const Dashboard = (props) => {
   const history = useHistory();
   const getUsers = () => {
     Axios.get("http://localhost:3001/users").then((response) => {
+      console.log(response);
       props.setUsersList(response.data);
     });
   };
@@ -96,21 +97,23 @@ const Dashboard = (props) => {
           </tr>
         </thead>
         <tbody>
-          {props.usersList.map((user) => {
-            return (
-              <tr key={user.id}>
-                <td>
-                  <input type="checkbox" className="userCheck" id={user.id} />
-                </td>
-                <td>{user.id}</td>
-                <td>{user.user}</td>
-                <td>{user.name}</td>
-                <td>{user.status}</td>
-                <td>{user.registerTime.slice(0, 19).replace("T", " ")}</td>
-                <td>{user.lastLoginTime.slice(0, 19).replace("T", " ")}</td>
-              </tr>
-            );
-          })}
+          {props.usersList
+            .sort((a, b) => a.id - b.id)
+            .map((user) => {
+              return (
+                <tr key={user.id}>
+                  <td>
+                    <input type="checkbox" className="userCheck" id={user.id} />
+                  </td>
+                  <td>{user.id}</td>
+                  <td>{user.user}</td>
+                  <td>{user.name}</td>
+                  <td>{user.status}</td>
+                  <td>{user.registertime.slice(0, 19).replace("T", " ")}</td>
+                  <td>{user.lastlogintime.slice(0, 19).replace("T", " ")}</td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>
