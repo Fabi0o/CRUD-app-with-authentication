@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "name": "CRUD-APP-WITH-AUTHENTICATION",
   "builds": [{ "src": "DBSERVER.js", "use": "@vercel/node" }],
-  "routes": [{ "src": "/(.*)", "dest": "/dbServer.js" }]
+  "routes": [{ "src": "/(.*)", "dest": "/" }]
 }
