@@ -5,7 +5,6 @@ const Dashboard = (props) => {
   const getUsers = () => {
     Axios.get("https://crud-app-with-authentication.vercel.app/users").then(
       (response) => {
-        console.log(response);
         props.setUsersList(response.data);
       }
     );
