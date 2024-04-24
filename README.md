@@ -1,4 +1,4 @@
-CRUD application created using React, node.js, express and mySQL. [Live preview!](https://crud-app-with-auth.netlify.app/)
+CRUD application created using React, node.js, express and mySQL. 
 ### App functionalities:
 * Creating account with email and password(length >=1). Password are safely stored hashed by bcrypt in mysql DB
 * Authentication
